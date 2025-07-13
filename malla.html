@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Psicopedagogía Interactiva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .semestre {
+      background: #fff;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 700px;
+      opacity: 0.4;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .semestre.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .semestre h2 {
+      color: #2980b9;
+    }
+    label {
+      display: block;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <h1>Malla Curricular Psicopedagogía</h1>
+
+  <div id="malla"></div>
+
+  <script>
+    const malla = {
+      "1° Semestre": [
+        "Introducción a la Psicopedagogía",
+        "Bases neurofisiológicas para la Psicopedagogía",
+        "Psicología del desarrollo y del aprendizaje",
+        "Matemáticas para la educación superior",
+        "Herramientas para la empleabilidad",
+        "Habilidades para la comunicación"
+      ],
+      "2° Semestre": [
+        "Procesos cognitivos",
+        "Bases psicopedagógicas para el aprendizaje",
+        "Currículum y evaluación",
+        "Herramientas para la innovación",
+        "Procesos socioafectivos",
+        "Herramientas de inteligencia artificial"
+      ],
+      "3° Semestre": [
+        "Taller de Diseño Universal del Aprendizaje (DUA)",
+        "Neurociencias en Psicopedagogía",
+        "Adecuaciones curriculares",
+        "Sostenibilidad organizacional",
+        "Certificado de especialidad 1",
+        "Intervención psicopedagógica 1"
+      ],
+      "4° Semestre": [
+        "Intervención psicopedagógica 2",
+        "Evaluación de intervención psicopedagógica",
+        "Taller de proyecto de especialidad",
+        "Inglés inicial 1",
+        "Taller de marca personal",
+        "Certificado de especialidad 2"
+      ],
+      "5° Semestre": [
+        "Práctica de evaluación e intervención 1",
+        "Instrumentos de evaluación psicopedagógica",
+        "Inglés inicial 2",
+        "IA para la gestión profesional",
+        "Taller de familia y comunidad"
+      ],
+      "6° Semestre": [
+        "Práctica de evaluación e intervención 2",
+        "Psicopedagogía socio-comunitaria",
+        "Habilidades instrumentales",
+        "Psicogerontología",
+        "Certificado de especialidad 3"
+      ],
+      "7° Semestre": [
+        "Práctica de especialidad integrada",
+        "Gestión de proyectos sociales",
+        "Evaluación psicopedagógica de habilidades instrumentales",
+        "Mecanismos de prevención psicopedagógica",
+        "Estrategias de inclusión en la diversidad",
+        "Certificado de especialidad 4"
+      ],
+      "8° Semestre": [
+        "Psicopedagogía y calidad de vida",
+        "Psicopedagogía laboral",
+        "Proyecto de especialidad profesional",
+        "Trabajo en redes de apoyo",
+        "Coaching laboral"
+      ]
+    };
+
+    const mallaDiv = document.getElementById("malla");
+
+    Object.entries(malla).forEach(([semestre, asignaturas], index) => {
+      const semDiv = document.createElement("div");
+      semDiv.className = "semestre";
+      if (index === 0) semDiv.classList.add("active");
+
+      const title = document.createElement("h2");
+      title.textContent = semestre;
+      semDiv.appendChild(title);
+
+      asignaturas.forEach((asignatura, i) => {
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.dataset.semestre = index;
+
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            label.classList.add("completed");
+          } else {
+            label.classList.remove("completed");
+          }
+          checkNextSemestre(index);
+        });
+
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(asignatura));
+        semDiv.appendChild(label);
+      });
+
+      mallaDiv.appendChild(semDiv);
+    });
+
+    function checkNextSemestre(currentIndex) {
+      const currentSem = document.querySelectorAll(`.semestre`)[currentIndex];
+      const allChecked = [...currentSem.querySelectorAll('input[type="checkbox"]')].every(cb => cb.checked);
+      const nextSem = document.querySelectorAll(`.semestre`)[currentIndex + 1];
+      if (nextSem && allChecked) {
+        nextSem.classList.add("active");
+      } else if (nextSem) {
+        nextSem.classList.remove("active");
+      }
+    }
+  </script>
+</body>
+</html>
