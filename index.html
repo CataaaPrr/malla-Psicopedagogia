@@ -1,1 +1,179 @@
-# malla-Psicopedagogia
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Psicopedagogía Interactiva</title>
+  <!-- Fuente elegante y moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffe6f0; /* fondo rosa pastel */
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #a8325a;
+      margin-bottom: 40px;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .semestre {
+      background: #f9a8c2; /* rosa más oscuro */
+      padding: 15px;
+      border-radius: 15px;
+      width: 250px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      opacity: 0.4;
+      pointer-events: none;
+      transition: 0.3s ease;
+    }
+    .semestre.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .semestre h2 {
+      text-align: center;
+      color: #a8325a;
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+    }
+    .asignatura {
+      background: #f98bb3; /* rosa más oscuro */
+      color: #801336; /* texto más oscuro */
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #c94f7c; /* borde rosa oscuro */
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-weight: 500;
+      user-select: none;
+    }
+    .asignatura:hover {
+      background: #f871a2;
+    }
+    .asignatura.completed {
+      background: #d6b3f9; /* lila suave */
+      color: #7a42b1; /* lila más oscuro */
+      text-decoration: line-through;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Malla Curricular Psicopedagogía</h1>
+  <div class="grid" id="malla"></div>
+
+  <script>
+    const malla = {
+      "1° Semestre": [
+        "Introducción a la Psicopedagogía",
+        "Bases neurofisiológicas para la Psicopedagogía",
+        "Psicología del desarrollo y del aprendizaje",
+        "Matemáticas para la educación superior",
+        "Herramientas para la empleabilidad",
+        "Habilidades para la comunicación"
+      ],
+      "2° Semestre": [
+        "Procesos cognitivos",
+        "Bases psicopedagógicas para el aprendizaje",
+        "Currículum y evaluación",
+        "Herramientas para la innovación",
+        "Procesos socioafectivos",
+        "Herramientas de inteligencia artificial"
+      ],
+      "3° Semestre": [
+        "Taller de Diseño Universal del Aprendizaje (DUA)",
+        "Neurociencias en Psicopedagogía",
+        "Adecuaciones curriculares",
+        "Sostenibilidad organizacional",
+        "Certificado de especialidad 1",
+        "Intervención psicopedagógica 1"
+      ],
+      "4° Semestre": [
+        "Intervención psicopedagógica 2",
+        "Evaluación de intervención psicopedagógica",
+        "Taller de proyecto de especialidad",
+        "Inglés inicial 1",
+        "Taller de marca personal",
+        "Certificado de especialidad 2"
+      ],
+      "5° Semestre": [
+        "Práctica de evaluación e intervención 1",
+        "Instrumentos de evaluación psicopedagógica",
+        "Inglés inicial 2",
+        "IA para la gestión profesional",
+        "Taller de familia y comunidad"
+      ],
+      "6° Semestre": [
+        "Práctica de evaluación e intervención 2",
+        "Psicopedagogía socio-comunitaria",
+        "Habilidades instrumentales",
+        "Psicogerontología",
+        "Certificado de especialidad 3"
+      ],
+      "7° Semestre": [
+        "Práctica de especialidad integrada",
+        "Gestión de proyectos sociales",
+        "Evaluación psicopedagógica de habilidades instrumentales",
+        "Mecanismos de prevención psicopedagógica",
+        "Estrategias de inclusión en la diversidad",
+        "Certificado de especialidad 4"
+      ],
+      "8° Semestre": [
+        "Psicopedagogía y calidad de vida",
+        "Psicopedagogía laboral",
+        "Proyecto de especialidad profesional",
+        "Trabajo en redes de apoyo",
+        "Coaching laboral"
+      ]
+    };
+
+    const mallaDiv = document.getElementById("malla");
+
+    Object.entries(malla).forEach(([semestre, asignaturas], index) => {
+      const semDiv = document.createElement("div");
+      semDiv.className = "semestre";
+      if (index === 0) semDiv.classList.add("active");
+
+      const title = document.createElement("h2");
+      title.textContent = semestre;
+      semDiv.appendChild(title);
+
+      asignaturas.forEach((asignatura, i) => {
+        const div = document.createElement("div");
+        div.className = "asignatura";
+        div.textContent = asignatura;
+
+        div.addEventListener("click", () => {
+          div.classList.toggle("completed");
+          checkNextSemestre(index);
+        });
+
+        semDiv.appendChild(div);
+      });
+
+      mallaDiv.appendChild(semDiv);
+    });
+
+    function checkNextSemestre(currentIndex) {
+      const currentSem = document.querySelectorAll('.semestre')[currentIndex];
+      const allCompleted = [...currentSem.querySelectorAll('.asignatura')].every(div => div.classList.contains('completed'));
+      const nextSem = document.querySelectorAll('.semestre')[currentIndex + 1];
+      if (nextSem && allCompleted) {
+        nextSem.classList.add("active");
+      } else if (nextSem) {
+        nextSem.classList.remove("active");
+      }
+    }
+  </script>
+</body>
+</html>
