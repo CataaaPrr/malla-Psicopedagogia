@@ -5,14 +5,14 @@
   <title>Malla Psicopedagogía Interactiva</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffe6f0; /* fondo rosa pastel */
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
-      color: #2c3e50;
+      color: #a8325a;
       margin-bottom: 40px;
     }
     .grid {
@@ -22,11 +22,11 @@
       gap: 20px;
     }
     .semestre {
-      background: #ffe0e6; /* rosado por defecto */
+      background: #f9a8c2; /* rosa más oscuro */
       padding: 15px;
       border-radius: 15px;
       width: 250px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
       opacity: 0.4;
       pointer-events: none;
       transition: 0.3s ease;
@@ -37,21 +37,30 @@
     }
     .semestre h2 {
       text-align: center;
-      color: #c0392b;
+      color: #a8325a;
     }
     .asignatura {
-      background: #ffe0e6;
+      background: #f98bb3; /* rosa más oscuro */
+      color: #801336; /* texto más oscuro */
       margin: 8px 0;
       padding: 10px;
       border-radius: 10px;
+      border: 2px solid #c94f7c; /* borde rosa oscuro */
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       cursor: pointer;
       transition: 0.3s ease;
+      font-weight: 500;
       user-select: none;
     }
+    .asignatura:hover {
+      background: #f871a2;
+    }
     .asignatura.completed {
-      background: #dcd6f7;
+      background: #9333ea; /* morado más oscuro */
+      color: #fff0f5; /* texto claro */
       text-decoration: line-through;
-      color: #555;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
   </style>
 </head>
