@@ -6,51 +6,58 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      background-color: #f9f9f9;
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
       color: #2c3e50;
+      margin-bottom: 40px;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
     .semestre {
-      background: #fff;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 10px;
+      background: #ffe0e6; /* rosado por defecto */
+      padding: 15px;
+      border-radius: 15px;
+      width: 250px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 700px;
       opacity: 0.4;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: 0.3s ease;
     }
     .semestre.active {
       opacity: 1;
       pointer-events: auto;
     }
     .semestre h2 {
-      color: #2980b9;
+      text-align: center;
+      color: #c0392b;
     }
-    label {
-      display: block;
-      margin: 10px 0;
+    .asignatura {
+      background: #ffe0e6;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: 0.3s ease;
+      user-select: none;
     }
-    input[type="checkbox"] {
-      margin-right: 10px;
-    }
-    .completed {
+    .asignatura.completed {
+      background: #dcd6f7;
       text-decoration: line-through;
-      color: gray;
+      color: #555;
     }
   </style>
 </head>
 <body>
   <h1>Malla Curricular Psicopedagogía</h1>
-
-  <div id="malla"></div>
+  <div class="grid" id="malla"></div>
 
   <script>
     const malla = {
@@ -129,33 +136,26 @@
       semDiv.appendChild(title);
 
       asignaturas.forEach((asignatura, i) => {
-        const label = document.createElement("label");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.dataset.semestre = index;
+        const div = document.createElement("div");
+        div.className = "asignatura";
+        div.textContent = asignatura;
 
-        checkbox.addEventListener("change", () => {
-          if (checkbox.checked) {
-            label.classList.add("completed");
-          } else {
-            label.classList.remove("completed");
-          }
+        div.addEventListener("click", () => {
+          div.classList.toggle("completed");
           checkNextSemestre(index);
         });
 
-        label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(asignatura));
-        semDiv.appendChild(label);
+        semDiv.appendChild(div);
       });
 
       mallaDiv.appendChild(semDiv);
     });
 
     function checkNextSemestre(currentIndex) {
-      const currentSem = document.querySelectorAll(`.semestre`)[currentIndex];
-      const allChecked = [...currentSem.querySelectorAll('input[type="checkbox"]')].every(cb => cb.checked);
-      const nextSem = document.querySelectorAll(`.semestre`)[currentIndex + 1];
-      if (nextSem && allChecked) {
+      const currentSem = document.querySelectorAll('.semestre')[currentIndex];
+      const allCompleted = [...currentSem.querySelectorAll('.asignatura')].every(div => div.classList.contains('completed'));
+      const nextSem = document.querySelectorAll('.semestre')[currentIndex + 1];
+      if (nextSem && allCompleted) {
         nextSem.classList.add("active");
       } else if (nextSem) {
         nextSem.classList.remove("active");
